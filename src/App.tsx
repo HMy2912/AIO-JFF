@@ -14,7 +14,7 @@ function App() {
   }
 
   const endpoint = "https://azureaiaiojff.cognitiveservices.azure.com/";
-  const key = "";
+  const key = "4c8270c756ba40a096b42491ca2a20e2";
   const credential = new AzureKeyCredential(key);
 
   const client = createImageAnalysisClient(endpoint, credential);
@@ -70,7 +70,7 @@ function App() {
     
     axios.post("https://instanceopenaitest.openai.azure.com/openai/deployments/openaitestvisionpreview/chat/completions?api-version=2024-02-15-preview", jsonBody, {
       headers: {
-        "api-key": ""
+        "api-key": "4a5ccddc3e0145c38eeb68288192c929"
       }
     }).then(result => {console.log(result); setResponse(result.data.choices[0].message.content)}).catch(error => console.log(error))
 
