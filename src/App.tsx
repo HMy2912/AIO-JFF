@@ -1,25 +1,15 @@
 import axios from "axios";
 import { useState } from "react"
 import { Form } from "react-bootstrap"
-import createImageAnalysisClient, {
-  DenseCaptionOutput,
-  ImageAnalysisClient,
-  DetectedPersonOutput,
-  DetectedTextBlockOutput,
-  DetectedObjectOutput,
-  CropRegionOutput,
-  DetectedTagOutput,
-  isUnexpected
-} from '@azure-rest/ai-vision-image-analysis';
+import createImageAnalysisClient from '@azure-rest/ai-vision-image-analysis';
 import { AzureKeyCredential } from '@azure/core-auth';
 import { Buffer } from "buffer";
-import { createCanvas, loadImage, CanvasRenderingContext2D } from 'canvas';
-import fs from 'fs';
 
 function App() {
-  const [file, setFile] = useState();
+  const [file, setFile] = useState("");
+  // const [image, setImage] = useState();
   const [response, setResponse] = useState("");
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
       setFile(URL.createObjectURL(e.target.files[0]));
   }
 
@@ -29,7 +19,7 @@ function App() {
 
   const client = createImageAnalysisClient(endpoint, credential);
 
-  function blobToBase64(blob) {
+  function blobToBase64(blob: any) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onloadend = () => resolve(reader.result);
@@ -42,7 +32,7 @@ function App() {
     fetch(file)
     .then(response => response.blob())
     .then(blob => blobToBase64(blob))
-    .then(async base64 => {
+    .then(async (base64: any) => {
       const jsonBody = {"messages": 
         [
             {
@@ -113,51 +103,55 @@ function App() {
 
     console.log("Image analysis result:", result.body);
 
-    const canvas = createCanvas(800, 600); // Create a canvas
-    const ctx = canvas.getContext('2d'); // Get 2D rendering context
+    // const canvas = createCanvas(800, 600); // Create a canvas
+    // const ctx = canvas.getContext('2d'); // Get 2D rendering context
 
-    try {
-        // Load image from buffer
-        const image = await loadImage(buffer);
-        canvas.width = image.width; // Set canvas width
-        canvas.height = image.height; // Set canvas height
+    // try {
+    //     // Load image from buffer
+    //     // const image = await loadImage(buffer);
+    //     const image = new Image();
+    //     image.src = base64;
+    //     canvas.width = image.width; // Set canvas width
+    //     canvas.height = image.height; // Set canvas height
 
-        // Draw the image on the canvas
-        ctx.drawImage(image, 0, 0, image.width, image.height);
+    //     // Draw the image on the canvas
+    //     ctx.drawImage(image, 0, 0, image.width, image.height);
 
         
 
-        // Prepare for drawing
-        const color = 'cyan';
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 3;
-        ctx.font = '16px Sans-serif';
+    //     // Prepare for drawing
+    //     const color = 'cyan';
+    //     ctx.strokeStyle = color;
+    //     ctx.lineWidth = 3;
+    //     ctx.font = '16px Sans-serif';
 
-        // Iterate over detected objects
-        for (const detectedObject of result.objectsResult.values) {
-            if (detectedObject.tags[0].name === 'person') {
-                // Print object name and confidence
-                console.log(`${detectedObject.tags[0].name} (confidence: ${detectedObject.tags[0].confidence * 100}%)`);
+    //     // Iterate over detected objects
+    //     for (const detectedObject of result.body.objectsResult.values) {
+    //         if (detectedObject.tags[0].name === 'person') {
+    //             // Print object name and confidence
+    //             console.log(`${detectedObject.tags[0].name} (confidence: ${detectedObject.tags[0].confidence * 100}%)`);
 
-                // Draw bounding box
-                const { x, y, width, height } = detectedObject.bounding_box;
-                ctx.strokeRect(x, y, width, height);
+    //             // Draw bounding box
+    //             const { x, y, width, height } = detectedObject.boundingBox;
+    //             ctx.strokeRect(x, y, width, height);
 
-                // Annotate object
-                ctx.fillStyle = color;
-                ctx.fillText(detectedObject.tags[0].name, x, y);
-            }
-        }
+    //             // Annotate object
+    //             ctx.fillStyle = color;
+    //             ctx.fillText(detectedObject.tags[0].name, x, y);
+    //         }
+    //     }
 
-        // Save annotated image
-        const outputfile = 'people.jpg';
-        const out = fs.createWriteStream(outputfile);
-        const stream = canvas.createJPEGStream({ quality: 0.95 });
-        stream.pipe(out);
-        out.on('finish', () => console.log('Results saved in', outputfile));
-    } catch (error) {
-        console.error('Error:', error);
-    }
+    //     // Save annotated image
+    //     // const outputfile = 'people.jpg';
+    //     // const out = fs.createWriteStream(outputfile);
+    //     // const stream = canvas.createJPEGStream({ quality: 0.95 });
+    //     setImage(canvas);
+    //     // console.log(image)
+    //     // stream.pipe(out);
+    //     // out.on('finish', () => console.log('Results saved in', outputfile));
+    // } catch (error) {
+    //     console.error('Error:', error);
+    // }
   
   })
 
@@ -172,9 +166,10 @@ function App() {
           <Form.Control type="file" onChange={handleChange}/>
         </Form.Group>
         <button onClick={handleRun}>RUN</button>
-        <img src={file} style={{width: "50%", height: "auto"}}/>
+        <img src={file} style={{width: "50%", height: "50%"}}/>
       </div>
       <p style={{whiteSpace: "pre-line"}}>{response}</p>
+      {/* <canvas>{image}</canvas> */}
     </div>
   )
 }

@@ -21,7 +21,8 @@
     "jimp": "^0.22.12",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.3",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "vite-plugin-fs": "^1.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.14.9",
@@ -34,6 +35,7 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
     "typescript": "^5.2.2",
-    "vite": "^5.3.1"
+    "vite": "^5.3.1",
+    "vite-fs": "^0.0.2"
   }
 }
