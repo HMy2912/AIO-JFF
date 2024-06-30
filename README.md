@@ -3,6 +3,9 @@
 ## GitHub Repository Link
 [Github link](https://github.com/HMy2912/AIO-JFF)
 
+## Deployment
+https://aio-jff.vercel.app/
+
 ## Team Representation
 The project's GitHub repository ("GitHub Redo") is managed by [AIO-JFF]. Access rights have been shared with all team members for collaborative purposes.
 
